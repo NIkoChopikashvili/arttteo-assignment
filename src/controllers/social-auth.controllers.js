@@ -16,8 +16,8 @@ const {
 exports.facebookAuthenticate = async (req, res, next) => {
   passport.authenticate("facebook", { session: false }, async (err, user) => {
     try {
-      if (!user) throw new FacebookLoginCancelled("Facebook login cancelled");
-      if (err) throw new FacebookLoginCancelled("Facebook login cancelled");
+      if (!user || err)
+        throw new FacebookLoginCancelled("Facebook login cancelled");
 
       let redirectUrl = `${process.env.API_URL}/`;
 
@@ -40,8 +40,8 @@ exports.facebookAuthenticate = async (req, res, next) => {
 exports.googleAuthenticate = async (req, res, next) => {
   passport.authenticate("google", { session: false }, async (err, user) => {
     try {
-      if (!user) throw new GoogleLoginCancelled("Google login cancelled");
-      if (err) throw new GoogleLoginCancelled("Google login cancelled");
+      if (!user || err)
+        throw new GoogleLoginCancelled("Google login cancelled");
 
       let redirectUrl = `${process.env.API_URL}/`;
 

@@ -12,11 +12,18 @@ const { findOrCreateUser } = require("../utils/social-strategy-utils");
 
 const GoogleStrategy = googleOauth.Strategy;
 
+let googleClientId = process.env.GOOGLE_CLIENT_ID;
+let googleCLientSecret = process.env.CLIENT_SECRET_FB;
+
+if (!googleClientId || !googleCLientSecret) {
+  throw new Error("Google client ID and secret must be provided");
+}
+
 module.exports = passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientID: googleClientId,
+      clientSecret: googleCLientSecret,
       callbackURL: `${
         process.env.API_URL || `http://localhost:${process.env.PORT}`
       }/auth/google/callback`,

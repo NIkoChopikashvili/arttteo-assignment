@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 /**
- * Generates a JWT for a given user and sets it as a cookie in the response.
+ * Generates a JWT for a given user.
  *
  * @param {Object} user - The user object.
  * @param {string} user.id - The user's ID.

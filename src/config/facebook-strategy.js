@@ -15,6 +15,10 @@ const FacebookStrategy = facebookOauth.Strategy;
 let facebookClientId = process.env.CLIENT_ID_FB;
 let facebookClientSecret = process.env.CLIENT_SECRET_FB;
 
+if (!facebookClientId || !facebookClientSecret) {
+  throw new Error("Facebook client ID and secret must be provided");
+}
+
 module.exports = passport.use(
   new FacebookStrategy(
     {
