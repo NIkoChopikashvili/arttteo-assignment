@@ -38,7 +38,7 @@ exports.loginUser = async (req, res, next) => {
 };
 
 /**
- * Refreshes user token/
+ * Refreshes user token.
  *
  * @param {import('express').Request} req
  * @param {import('express').Response} res
@@ -46,8 +46,9 @@ exports.loginUser = async (req, res, next) => {
  */
 module.exports.refreshAccessToken = async (req, res, next) => {
   try {
-    await refreshToken(req.user.userId);
-    return res.status(200).json({ type: 'success' });
+    await refreshToken(req.user.userId, res);
+
+    return res.status(200).json({ result: resultCodes.SUCCESS });
   } catch (error) {
     next(error);
   }

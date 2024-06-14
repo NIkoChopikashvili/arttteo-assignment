@@ -47,19 +47,25 @@ const register = async (username, email, password) => {
  * @throws {Error} - If the user is not found or the password is invalid.
  */
 const login = async (username, password, res) => {
-  const user = await UserModel.findOne({
-    where: { username },
-  });
+  try {
+    const user = await UserModel.findOne({
+      where: { username },
+    });
 
-  if (!user) throw new UserNotFound('User with that username does not exist.');
+    if (!user)
+      throw new UserNotFound('User with that username does not exist.');
 
-  const isCorrect = await comparePassword(password, user.password);
+    const isCorrect = await comparePassword(password, user.password);
 
-  if (!isCorrect)
-    throw new IncorrectPassword('Provided password is incorrect.');
+    if (!isCorrect)
+      throw new IncorrectPassword('Provided password is incorrect.');
 
-  generateAccessAndRefreshToken(user, res);
-  return { user, token };
+    generateAccessAndRefreshToken(user, res);
+
+    return { user };
+  } catch (err) {
+    throw err;
+  }
 };
 
 /**
@@ -69,7 +75,7 @@ const login = async (username, password, res) => {
  * @returns {Promise<{ user: UserModel }>} The refreshed user object.
  * @throws {UserNotFound} If no user is found with the given userId.
  */
-const refreshToken = async userId => {
+const refreshToken = async (userId, res) => {
   try {
     const user = await UserModel.findByPk(userId);
 
