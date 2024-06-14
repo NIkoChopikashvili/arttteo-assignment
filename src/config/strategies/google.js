@@ -16,8 +16,6 @@ const GoogleStrategy = googleOauth.Strategy;
 let googleClientId = process.env.GOOGLE_CLIENT_ID;
 let googleCLientSecret = process.env.GOOGLE_CLIENT_SECRET;
 
-console.log(googleCLientSecret, googleClientId);
-
 if (!googleClientId || !googleCLientSecret) {
   throw new Error('Google client ID and secret must be provided');
 }

@@ -1,5 +1,5 @@
-const { InvalidToken } = require("../exceptions");
-const jwt = require("jsonwebtoken");
+const { InvalidToken } = require('../exceptions');
+const jwt = require('jsonwebtoken');
 
 /**
  * Middleware to handle JWT authentication.
@@ -11,10 +11,10 @@ const jwt = require("jsonwebtoken");
 module.exports.authHandler = (req, res, next) => {
   const token = req.cookies.token;
 
-  if (!token) return next(new InvalidToken("Access token is invalid."));
+  if (!token) return next(new InvalidToken('Access token is invalid.'));
 
   jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
-    if (err) return next(new InvalidToken("Access token is invalid."));
+    if (err) return next(new InvalidToken('Access token is invalid.'));
 
     req.user = user;
     next();

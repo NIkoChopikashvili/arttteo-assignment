@@ -58,8 +58,30 @@ const login = async (username, password, res) => {
   if (!isCorrect)
     throw new IncorrectPassword('Provided password is incorrect.');
 
-  const token = generateAccessAndRefreshToken(user, res);
+  generateAccessAndRefreshToken(user, res);
   return { user, token };
 };
 
-module.exports = { register, login };
+/**
+ * Retrieves the user by userId, generates new tokens, and sends them in the response.
+ *
+ * @param {number} userId - The ID of the user to refresh tokens for.
+ * @returns {Promise<{ user: UserModel }>} The refreshed user object.
+ * @throws {UserNotFound} If no user is found with the given userId.
+ */
+const refreshToken = async userId => {
+  try {
+    const user = await UserModel.findByPk(userId);
+
+    if (!user)
+      throw new UserNotFound('User with that credentials does not exist.');
+
+    generateAccessAndRefreshToken(user, res);
+
+    return { user };
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { register, login, refreshToken };

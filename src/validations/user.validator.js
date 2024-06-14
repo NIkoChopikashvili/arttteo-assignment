@@ -1,6 +1,6 @@
-const Joi = require("joi");
+const Joi = require('joi');
 
-exports.createUserValidation = Joi.object({
+exports.createUserValidator = Joi.object({
   body: {
     username: Joi.string().required(),
     email: Joi.string().email(),
@@ -8,7 +8,7 @@ exports.createUserValidation = Joi.object({
   },
 });
 
-exports.userSignInValidation = Joi.object({
+exports.userSignInValidator = Joi.object({
   body: {
     username: Joi.string().required(),
     password: Joi.string().min(3).required(),

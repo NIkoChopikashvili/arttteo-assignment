@@ -14,7 +14,7 @@ class FacebookLoginCancelled extends Error {
    */
   constructor(message, statusCode = 500) {
     super(message);
-    this.name = "FacebookLoginCancelled";
+    this.name = 'FacebookLoginCancelled';
     this.statusCode = statusCode;
   }
 }

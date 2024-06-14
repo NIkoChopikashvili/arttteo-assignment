@@ -14,7 +14,7 @@ class GoogleLoginCancelled extends Error {
    */
   constructor(message, statusCode = 500) {
     super(message);
-    this.name = "GoogleLoginCancelled";
+    this.name = 'GoogleLoginCancelled';
     this.statusCode = statusCode;
   }
 }

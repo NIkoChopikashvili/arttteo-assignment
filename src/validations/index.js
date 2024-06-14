@@ -1,8 +1,8 @@
 const {
-  createUserValidation,
-  userSignInValidation,
-} = require("./user.validation");
+  createUserValidator,
+  userSignInValidator,
+} = require('./user.validator');
 module.exports = {
-  createUserValidation,
-  userSignInValidation,
+  createUserValidator,
+  userSignInValidator,
 };

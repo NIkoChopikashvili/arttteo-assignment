@@ -40,7 +40,6 @@ exports.facebookAuthenticate = async (req, res, next) => {
 exports.googleAuthenticate = async (req, res, next) => {
   passport.authenticate('google', { session: false }, async (err, user) => {
     try {
-      console.log('err', err);
       if (!user || err)
         throw new GoogleLoginCancelled('Google login cancelled');
 

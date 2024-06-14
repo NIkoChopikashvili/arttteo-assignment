@@ -1,4 +1,5 @@
-const { register, login } = require('../services/auth.service');
+const { resultCodes } = require('../enums');
+const { register, login, refreshToken } = require('../services/auth.service');
 
 /**
  * Registers a new user.
@@ -12,7 +13,7 @@ exports.registerUser = async (req, res, next) => {
     const { username, email, password } = req.body;
     const user = await register(username, email, password);
 
-    return res.status(201).json({ user });
+    return res.status(201).json({ user, result: resultCodes.SUCCESS });
   } catch (error) {
     next(error);
   }
@@ -30,7 +31,23 @@ exports.loginUser = async (req, res, next) => {
     const { username, password } = req.body;
     const { user } = await login(username, password, res);
 
-    return res.status(200).json({ user });
+    return res.status(200).json({ user, result: resultCodes.SUCCESS });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Refreshes user token/
+ *
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @param {import('express').NextFunction} next
+ */
+module.exports.refreshAccessToken = async (req, res, next) => {
+  try {
+    await refreshToken(req.user.userId);
+    return res.status(200).json({ type: 'success' });
   } catch (error) {
     next(error);
   }
