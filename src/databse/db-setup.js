@@ -7,7 +7,7 @@ const sequelize = new Sequelize(
   process.env.ROLE,
   process.env.PASSWORD,
   {
-    host: process.env.DB_HOST || 'localhost',
+    host: process.env.DB_HOST,
     dialect: 'postgres',
     logging: !process.env.DISABLE_SQL_LOGGER,
     dialectModule: require('pg'),

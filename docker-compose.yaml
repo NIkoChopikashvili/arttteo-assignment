@@ -21,8 +21,6 @@ services:
       - .env
     environment:
       POSTGRES_DB: arttteo
-      POSTGRES_USER: niko
-      POSTGRES_PASSWORD: value
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
