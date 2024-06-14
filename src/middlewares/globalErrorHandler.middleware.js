@@ -1,4 +1,5 @@
-const { resultCodes } = require("../enums");
+const { resultCodes } = require('../enums');
+const logger = require('../utils/logger');
 
 /**
  * Global error handling middleware.
@@ -12,7 +13,7 @@ const globalErrorHandler = async (error, req, res, next) => {
   if (error) {
     const statusCode = error.statusCode || 500;
 
-    console.log(error);
+    logger.error(error);
 
     res.status(statusCode).json({
       result: resultCodes.ERROR,

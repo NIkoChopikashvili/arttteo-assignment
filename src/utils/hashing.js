@@ -1,4 +1,5 @@
-const bcrypt = require("bcrypt");
+const bcrypt = require('bcrypt');
+const logger = require('./logger');
 
 /**
  * Hashes a password using bcrypt.
@@ -7,7 +8,7 @@ const bcrypt = require("bcrypt");
  *
  * @returns {Promise<string>} - The hashed password.
  */
-exports.hashPassword = async (password) => {
+exports.hashPassword = async password => {
   const hashedPwd = await bcrypt.hash(password, 12);
   return hashedPwd;
 };
@@ -25,7 +26,7 @@ exports.comparePassword = async (password, userPwd) => {
     const isCorrect = await bcrypt.compare(password, userPwd);
     return isCorrect;
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return false;
   }
 };

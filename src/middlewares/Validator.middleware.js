@@ -1,5 +1,5 @@
 //* Include joi to check error type
-const Joi = require("joi");
+const Joi = require('joi');
 
 /**
  * Checks if an object is empty.

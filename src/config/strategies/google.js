@@ -6,17 +6,20 @@
  * @module google-strategy
  */
 
-const passport = require("passport");
-const googleOauth = require("passport-google-oauth20");
-const { findOrCreateUser } = require("../utils/social-strategy-utils");
+const passport = require('passport');
+const googleOauth = require('passport-google-oauth20');
+const { findOrCreateUser } = require('../../services/socialAuth.service');
+const logger = require('../../utils/logger');
 
 const GoogleStrategy = googleOauth.Strategy;
 
 let googleClientId = process.env.GOOGLE_CLIENT_ID;
-let googleCLientSecret = process.env.CLIENT_SECRET_FB;
+let googleCLientSecret = process.env.GOOGLE_CLIENT_SECRET;
+
+console.log(googleCLientSecret, googleClientId);
 
 if (!googleClientId || !googleCLientSecret) {
-  throw new Error("Google client ID and secret must be provided");
+  throw new Error('Google client ID and secret must be provided');
 }
 
 module.exports = passport.use(
@@ -40,15 +43,15 @@ module.exports = passport.use(
      */
     async (req, accessToken, refreshToken, profile, done) => {
       if (!profile.emails?.[0]?.value) {
-        return done(new Error("Email not found for Google account"));
+        return done(new Error('Email not found for Google account'));
       }
       try {
-        const user = await findOrCreateUser(profile, "google");
+        const user = await findOrCreateUser(profile, 'google');
         done(null, user);
       } catch (err) {
-        console.log(err);
+        logger.error(err);
         return done(err);
       }
-    }
-  )
+    },
+  ),
 );

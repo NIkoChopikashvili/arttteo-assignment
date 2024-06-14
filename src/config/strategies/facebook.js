@@ -6,9 +6,9 @@
  * @module facebook-strategy
  */
 
-const passport = require("passport");
-const facebookOauth = require("passport-facebook");
-const { findOrCreateUser } = require("../utils/social-strategy-utils");
+const passport = require('passport');
+const facebookOauth = require('passport-facebook');
+const { findOrCreateUser } = require('../../services/socialAuth.service');
 
 const FacebookStrategy = facebookOauth.Strategy;
 
@@ -16,7 +16,7 @@ let facebookClientId = process.env.CLIENT_ID_FB;
 let facebookClientSecret = process.env.CLIENT_SECRET_FB;
 
 if (!facebookClientId || !facebookClientSecret) {
-  throw new Error("Facebook client ID and secret must be provided");
+  throw new Error('Facebook client ID and secret must be provided');
 }
 
 module.exports = passport.use(
@@ -27,7 +27,7 @@ module.exports = passport.use(
       callbackURL: `${
         process.env.API_URL || `http://localhost:${process.env.PORT}`
       }/facebook/redirect`,
-      profileFields: ["id", "email", "name"],
+      profileFields: ['id', 'email', 'name'],
     },
     /**
      * Facebook authentication callback.
@@ -39,11 +39,11 @@ module.exports = passport.use(
      */
     async (accessToken, refreshToken, profile, done) => {
       try {
-        const user = await findOrCreateUser(profile, "facebook");
+        const user = await findOrCreateUser(profile, 'facebook');
         done(null, user);
       } catch (err) {
         return done(err);
       }
-    }
-  )
+    },
+  ),
 );

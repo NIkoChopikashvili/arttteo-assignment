@@ -1,9 +1,9 @@
-const passport = require("passport");
-const { generateAccessAndRefreshToken } = require("../utils/jwt");
+const passport = require('passport');
+const { generateAccessAndRefreshToken } = require('../utils/jwt');
 const {
   GoogleLoginCancelled,
   FacebookLoginCancelled,
-} = require("../exceptions");
+} = require('../exceptions');
 
 /**
  * Middleware for handling Facebook OAuth authentication.
@@ -14,15 +14,15 @@ const {
  * @throws {FacebookLoginCancelled} If Facebook login is cancelled or encounters an error.
  */
 exports.facebookAuthenticate = async (req, res, next) => {
-  passport.authenticate("facebook", { session: false }, async (err, user) => {
+  passport.authenticate('facebook', { session: false }, async (err, user) => {
     try {
       if (!user || err)
-        throw new FacebookLoginCancelled("Facebook login cancelled");
+        throw new FacebookLoginCancelled('Facebook login cancelled');
 
-      let redirectUrl = `${process.env.API_URL}/`;
+      let redirectUrl = `${process.env.API_URL}/users/profile`;
 
       generateAccessAndRefreshToken(user, res);
-      return res.redirect(redirectUrl + "profile");
+      return res.redirect(redirectUrl);
     } catch (error) {
       next(error);
     }
@@ -38,15 +38,16 @@ exports.facebookAuthenticate = async (req, res, next) => {
  * @throws {GoogleLoginCancelled} If Google login is cancelled or encounters an error.
  */
 exports.googleAuthenticate = async (req, res, next) => {
-  passport.authenticate("google", { session: false }, async (err, user) => {
+  passport.authenticate('google', { session: false }, async (err, user) => {
     try {
+      console.log('err', err);
       if (!user || err)
-        throw new GoogleLoginCancelled("Google login cancelled");
+        throw new GoogleLoginCancelled('Google login cancelled');
 
-      let redirectUrl = `${process.env.API_URL}/`;
+      let redirectUrl = `${process.env.API_URL}/users/profile`;
 
       generateAccessAndRefreshToken(user, res);
-      return res.redirect(redirectUrl + "profile");
+      return res.redirect(redirectUrl);
     } catch (error) {
       next(error);
     }

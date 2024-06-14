@@ -4,8 +4,8 @@
  * @module social-strategy-utils
  */
 
-const { UserModel, UserSocialModel } = require("../models");
-const jwt = require("jsonwebtoken");
+const { UserModel, UserSocialModel } = require('../databse/models');
+const jwt = require('jsonwebtoken');
 
 /**
  * Finds or creates a user based on the social profile information.
@@ -54,10 +54,10 @@ const findOrCreateUser = async (profile, source) => {
   // If none exists
   const hasBothNames = profile.name?.givenName && profile.name?.familyName;
   if (!hasBothNames && profile.displayName) {
-    const splt = profile.displayName.split(" ");
+    const splt = profile.displayName.split(' ');
     profile.name = {
       givenName: splt[0],
-      familyName: splt.length === 2 ? splt[1] : "",
+      familyName: splt.length === 2 ? splt[1] : '',
     };
   }
   const newUser = await UserModel.create({

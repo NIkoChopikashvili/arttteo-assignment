@@ -1,12 +1,12 @@
-"use strict";
-const { Model, DataTypes } = require("sequelize");
+'use strict';
+const { Model, DataTypes } = require('sequelize');
 
 /**
  * Used to keep data about user.
  * @param sequelize
  * @returns {*}
  */
-module.exports = (sequelize) => {
+module.exports = sequelize => {
   class UserModel extends Model {
     /**
      * Helper method for defining associations.
@@ -31,8 +31,14 @@ module.exports = (sequelize) => {
     },
     {
       sequelize,
-      modelName: "Users",
-    }
+      modelName: 'Users',
+      indexes: [
+        {
+          unique: true,
+          fields: ['email'],
+        },
+      ],
+    },
   );
   return UserModel;
 };

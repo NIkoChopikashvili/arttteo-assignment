@@ -5,7 +5,7 @@
  */
 
 const express = require("express");
-const { registerUser, loginUser } = require("../controllers/auth.controllers");
+const { registerUser, loginUser } = require("../controllers/auth.controller");
 const { Validator } = require("../middlewares");
 const {
   createUserValidation,
@@ -14,7 +14,10 @@ const {
 
 const router = express.Router();
 
-router.post("/register", Validator(createUserValidation), registerUser);
-router.post("/login", Validator(userSignInValidation), loginUser);
+// Register a new user
+router.post("/auth/register", Validator(createUserValidation), registerUser);
+
+// Log in a user
+router.post("/auth/login", Validator(userSignInValidation), loginUser);
 
 module.exports = router;

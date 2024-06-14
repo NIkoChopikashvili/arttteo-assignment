@@ -1,23 +1,24 @@
-const { Sequelize } = require("sequelize");
-const { Umzug, SequelizeStorage } = require("umzug");
+const { Sequelize } = require('sequelize');
+const { Umzug, SequelizeStorage } = require('umzug');
+const logger = require('../utils/logger');
 
 const sequelize = new Sequelize(
-  process.env.DB || "arttteo",
+  process.env.DB || 'arttteo',
   process.env.ROLE,
   process.env.PASSWORD,
   {
-    host: process.env.DB_HOST || "localhost",
-    dialect: "postgres",
+    host: process.env.DB_HOST || 'localhost',
+    dialect: 'postgres',
     logging: !process.env.DISABLE_SQL_LOGGER,
-    dialectModule: require("pg"),
-  }
+    dialectModule: require('pg'),
+  },
 );
 
 const migrator = new Umzug({
-  migrations: { glob: "src/migrations/*.js" },
+  migrations: { glob: 'src/databse/migrations/*.js' },
   context: sequelize.getQueryInterface(),
   storage: new SequelizeStorage({ sequelize }),
-  logger: console,
+  logger: logger,
 });
 
 (async () => {
@@ -27,17 +28,17 @@ const migrator = new Umzug({
   try {
     await migrator.up();
   } catch (error) {
-    console.error(error);
-    throw new Error("Migration Error");
+    logger.error(error);
+    throw new Error('Migration Error');
   }
 })();
 
 const testDbConnection = async () => {
   try {
     await sequelize.authenticate();
-    console.log("Connection has been established successfully.");
+    logger.info('Connection has been established successfully.');
   } catch (error) {
-    console.error("Unable to connect to the database:", error);
+    logger.error('Unable to connect to the database:', error);
   }
 };
 

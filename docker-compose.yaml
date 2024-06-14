@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    image: node:14
+    working_dir: /usr/src/app/src
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    env_file:
+      - .env
+    depends_on:
+      - db
+    ports:
+      - '3000:3000'
+    command: bash -c "npm install -g nodemon && npm install && nodemon index.js"
+
+  db:
+    image: postgres:13
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: arttteo
+      POSTGRES_USER: niko
+      POSTGRES_PASSWORD: value
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+volumes:
+  pgdata:

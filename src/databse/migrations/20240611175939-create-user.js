@@ -1,10 +1,10 @@
-const { Sequelize, DataTypes } = require("sequelize");
+const { Sequelize, DataTypes } = require('sequelize');
 
-("use strict");
+('use strict');
 /** @type {import('umzug').RunnableMigration<import('sequelize').QueryInterface>} */
 module.exports = {
   async up({ context: queryInterface }) {
-    await queryInterface.createTable("Users", {
+    await queryInterface.createTable('Users', {
       id: {
         type: DataTypes.UUID,
         primaryKey: true,
@@ -30,8 +30,13 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
+
+    await queryInterface.addIndex('Users', ['email'], {
+      unique: true,
+      name: 'users_email_unique',
+    });
   },
   async down({ context: queryInterface }) {
-    await queryInterface.dropTable("Users");
+    await queryInterface.dropTable('Users');
   },
 };

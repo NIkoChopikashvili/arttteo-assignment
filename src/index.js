@@ -1,22 +1,23 @@
-require("dotenv").config();
+require('dotenv').config();
 
-const express = require("express");
-const bodyParser = require("body-parser");
-const helmet = require("helmet");
-const { globalErrorHandler } = require("./middlewares");
-const { testDbConnection } = require("./config/db-setup");
-const cookieParser = require("cookie-parser");
-const passport = require("passport");
-const session = require("express-session");
+const express = require('express');
+const bodyParser = require('body-parser');
+const helmet = require('helmet');
+const { globalErrorHandler } = require('./middlewares');
+const { testDbConnection } = require('./databse/db-setup');
+const cookieParser = require('cookie-parser');
+const passport = require('passport');
+const session = require('express-session');
+const swaggerUi = require('swagger-ui-express');
+const logger = require('./utils/logger');
 
-const path = require("path");
+const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(bodyParser.raw());
 app.use(cookieParser());
 app.use(helmet());
 app.use(
@@ -24,27 +25,28 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-  })
+  }),
 );
-
 app.use(passport.initialize());
 app.use(passport.session());
 
-require("./config/google-strategy");
-require("./config/facebook-strategy");
+require('./config/strategies/google');
+require('./config/strategies/facebook');
 
-app.use("/", require("./routes/social-auth.routes"));
-app.use("/", require("./routes/auth.routes"));
-app.use("/", require("./routes/user.routes"));
+app.use('/auth', require('./routes/auth.routes'));
+app.use('/users', require('./routes/user.routes'));
+app.use('/', require('./routes/social-auth.routes'));
+
+app.get('/health', (req, res) => res.status(200).send('OK'));
 
 app.use(globalErrorHandler);
 
 app.listen(port, () => {
   try {
-    console.log(`Server started on port: ${port}`);
+    logger.info(`Server started on port: ${port}`);
     testDbConnection();
   } catch (err) {
-    console.log(err);
+    logger.error(err);
   }
 });
 

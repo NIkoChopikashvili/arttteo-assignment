@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
 /**
  * Generates a JWT for a given user.
@@ -14,7 +14,7 @@ const jwt = require("jsonwebtoken");
 const generateJwt = (exports.generateJwt = (
   user,
   secret,
-  expiresIn = "24d"
+  expiresIn = '24d',
 ) => {
   const token = jwt.sign(
     {
@@ -25,7 +25,7 @@ const generateJwt = (exports.generateJwt = (
     secret,
     {
       expiresIn,
-    }
+    },
   );
   return token;
 });
@@ -38,17 +38,17 @@ const generateJwt = (exports.generateJwt = (
  * @returns {object} - Returns an object containing the generated access and refresh tokens.
  */
 module.exports.generateAccessAndRefreshToken = (user, res) => {
-  const token = generateJwt(user, process.env.JWT_SECRET_KEY, "12d");
+  const token = generateJwt(user, process.env.JWT_SECRET_KEY, '12d');
   const refreshToken = generateJwt(
     user,
     process.env.JWT_SECRET_KEY_REFRESH,
-    "24d"
+    '24d',
   );
-  res.cookie("token", token, {
+  res.cookie('token', token, {
     maxAge: 24 * 24 * 60 * 60 * 1000, // 24 days
     httpOnly: true,
   });
-  res.cookie("token.refresh", refreshToken, {
+  res.cookie('token.refresh', refreshToken, {
     maxAge: 24 * 24 * 60 * 60 * 1000, // 24 days
     httpOnly: true,
   });
