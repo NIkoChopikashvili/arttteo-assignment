@@ -8,10 +8,10 @@ const { testDbConnection } = require('./databse/db-setup');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const session = require('express-session');
-const swaggerUi = require('swagger-ui-express');
+const swaggerUI = require('swagger-ui-express');
 const logger = require('./utils/logger');
-
 const path = require('path');
+const swaggerSpec = require('./swagger');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -38,6 +38,8 @@ app.use('/users', require('./routes/user.routes'));
 app.use('/', require('./routes/social-auth.routes'));
 
 app.get('/health', (req, res) => res.status(200).send('OK'));
+
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 app.use(globalErrorHandler);
 
