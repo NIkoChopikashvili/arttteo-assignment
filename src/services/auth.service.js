@@ -60,9 +60,9 @@ const login = async (username, password, res) => {
     if (!isCorrect)
       throw new IncorrectPassword('Provided password is incorrect.');
 
-    generateAccessAndRefreshToken(user, res);
+    const { token, refreshToken } = generateAccessAndRefreshToken(user, res);
 
-    return { user };
+    return { user, token, refreshToken };
   } catch (err) {
     throw err;
   }

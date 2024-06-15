@@ -29,9 +29,11 @@ exports.registerUser = async (req, res, next) => {
 exports.loginUser = async (req, res, next) => {
   try {
     const { username, password } = req.body;
-    const { user } = await login(username, password, res);
+    const { user, token, refreshToken } = await login(username, password, res);
 
-    return res.status(200).json({ user, result: resultCodes.SUCCESS });
+    return res
+      .status(200)
+      .json({ user, token, refreshToken, result: resultCodes.SUCCESS });
   } catch (error) {
     next(error);
   }
