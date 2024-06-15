@@ -44,5 +44,4 @@ RESTful API for Authentication.
 
     ```
 
-- [View Swagger YAML file](./src/swagger.yaml).
 - Explore API documentation with [Swagger UI](http://localhost:5000/api-docs).
