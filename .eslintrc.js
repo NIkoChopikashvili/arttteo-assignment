@@ -10,5 +10,7 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['prettier'],
-  rules: {},
+  rules: {
+    'no-unused-vars': 'warn', // warn about unused variables
+  },
 };
